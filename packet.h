@@ -37,29 +37,29 @@ namespace PSO2Hook
 	//Useful if the plugin is in C++, but not necessary by any means
 	PACKED(
 	struct PacketHeader
-	{
-		UINT32 size;
-		BYTE type;
-		BYTE subtype;
-		BYTE flags;
-		BYTE padding; //Possibly also flag
-	} ATTRPACK;
+		{
+			UINT32 size;
+			BYTE type;
+			BYTE subtype;
+			BYTE flags;
+			BYTE padding; //Possibly also flag
+		} ATTRPACK;
 	)
 
 	class HOOK_API Packet
 	{
-	public:
-		Packet(PacketHeader *h);
-		Packet(LPBYTE *packet);
-		LPVOID *ref; //Change this when allocating for a new packet
-		PacketHeader *header;
-		USHORT pktID; //The unique type + subtype combination
-		UINT32 dataSize; //Size of the data section without the header
-		LPBYTE data;
-		~Packet();
+		public:
+			Packet(PacketHeader *h);
+			Packet(LPBYTE *packet);
+			LPVOID *ref; //Change this when allocating for a new packet
+			PacketHeader *header;
+			USHORT pktID; //The unique type + subtype combination
+			UINT32 dataSize; //Size of the data section without the header
+			LPBYTE data;
+			~Packet();
 	};
 #endif
-	typedef void(*pktHandler)(LPBYTE packet); //Pass by value is intentional to avoid plugins from interfering with each other
+	typedef void(*pktHandler)(PSO2Hook::Packet* ref, PSO2Hook::PacketHeader* header, USHORT packetId, UINT32 dataSize, LPBYTE data); //Pass by value is intentional to avoid plugins from interfering with each other
 
 	EXT HOOK_API BOOL pso2hRegisterHandlerRecv(pktHandler func, BYTE type, BYTE subtype, LPCSTR comment);
 	EXT HOOK_API BOOL pso2hRegisterHandlerSend(pktHandler func, BYTE type, BYTE subtype, LPCSTR comment);
