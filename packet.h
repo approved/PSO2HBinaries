@@ -51,7 +51,7 @@ namespace PSO2Hook
 		public:
 			Packet(PacketHeader *h);
 			Packet(LPBYTE *packet);
-			LPVOID *ref; //Change this when allocating for a new packet
+			Packet *ref; //Change this when allocating for a new packet
 			PacketHeader *header;
 			USHORT pktID; //The unique type + subtype combination
 			UINT32 dataSize; //Size of the data section without the header
